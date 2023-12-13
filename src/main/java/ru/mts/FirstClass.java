@@ -1,25 +1,28 @@
 package ru.mts;
+
 /**
  * Первый класс с тремя переменными
- * @autor SaintMouS
+ *
  * @version 1.0
+ * @autor SaintMouS
  */
-class FirstClass {
-    /** Количество товара */
+public class FirstClass {
+    /**
+     * Количество товара
+     */
     int countProduct; //Количество товара до 2022
-    /** Сумма товара */
+    /**
+     * Сумма товара
+     */
     double sumProduct; //Сумма товара до 1 доллар = 200 руб
-    /** Скидка на товар */
+    /**
+     * Скидка на товар
+     */
     double saleOnProduct; //Скидка на товар вводится в процентах: 150%
 
-    public void calculate(int countProduct, double sumProduct, double saleOnProduct){
+    public FirstClass(int countProduct, double sumProduct, double saleOnProduct) {
+        this.countProduct = countProduct;
         this.sumProduct = sumProduct;
         this.saleOnProduct = saleOnProduct;
-        this.countProduct = countProduct;
-        double sumWithSale = sumProduct * (1 - (saleOnProduct / 100)) * countProduct;
-        double sumWithoutSale = sumProduct * countProduct;
-        System.out.println("Sum without sale: " + String.format("%.2f", sumWithoutSale) + "₽");
-        System.out.println("Sum with sale: " + String.format("%.2f", sumWithSale) + "₽\n");
     }
-
 }
