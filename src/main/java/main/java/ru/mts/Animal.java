@@ -1,6 +1,7 @@
 package main.java.ru.mts;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public interface Animal {
     default String getBreed(){
@@ -13,6 +14,9 @@ public interface Animal {
         return null;
     }
     default String getCharacter() {
+        return null;
+    }
+    default LocalDate getBirthDate() {
         return null;
     }
 }

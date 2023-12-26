@@ -1,37 +1,36 @@
 package main.java.ru.mts;
 
+import main.java.ru.mts.animals.Cat;
+import main.java.ru.mts.animals.Dog;
+import main.java.ru.mts.animals.Shark;
+import main.java.ru.mts.animals.Wolf;
+
 public interface CreateAnimalService {
-    default void createAnimal(){
-        int rand = (int) (Math.random() * 2);
-        AbstractAnimal animal;
-        if(rand == 0){
-            rand = (int) (Math.random() * 2);
-            if(rand == 0)
-                animal = new Cat();
-            else
-                animal = new Dog();
-            print(animal);
-        }
-        else{
-            rand = (int) (Math.random() * 2);
-            if(rand == 0)
-                animal = new Shark();
-            else
-                animal = new Wolf();
-            print(animal);
-        }
+    default AbstractAnimal choiceAnimal(int type){
+        AbstractAnimal animal = switch (type) {
+            case 0 -> new Dog();
+            case 1 -> new Cat();
+            case 2 -> new Wolf();
+            case 3 -> new Shark();
+            default -> null;
+        };
+        ;
+        return animal;
     }
-    default void printAnimal(){
+    default AbstractAnimal[] createAnimal(){
         int N = 10;
+        AbstractAnimal[] arrayAnimal = new AbstractAnimal[N];
         while (N != 0) {
-            createAnimal();
+            int rand = (int) (Math.random() * 4);
+            arrayAnimal[arrayAnimal.length-N] = choiceAnimal(rand);
             N--;
         }
+        return arrayAnimal;
     }
-    default void print(AbstractAnimal abstractAnimal){
-        System.out.println("Порода: " + abstractAnimal.getBreed());
-        System.out.println("Кличка: " + abstractAnimal.getName());
-        System.out.println("Характер: " + abstractAnimal.getCharacter());
-        System.out.println("Цена в магазине: " + abstractAnimal.getCost() + "\n");
-    }
+//    default void print(AbstractAnimal abstractAnimal){
+//        System.out.println("Порода: " + abstractAnimal.getBreed());
+//        System.out.println("Кличка: " + abstractAnimal.getName());
+//        System.out.println("Характер: " + abstractAnimal.getCharacter());
+//        System.out.println("Цена в магазине: " + abstractAnimal.getCost() + "\n");
+//    }
 }

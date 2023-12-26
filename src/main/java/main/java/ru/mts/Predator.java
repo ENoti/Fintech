@@ -13,8 +13,4 @@ public abstract class Predator extends AbstractAnimal {
         int rand = (int) (Math.random() * 3);
         return breed.get(rand);
     }
-
-    public void nameClass(){
-        System.out.println("Predator");
-    }
 }

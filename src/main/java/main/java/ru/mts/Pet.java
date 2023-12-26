@@ -1,6 +1,5 @@
 package main.java.ru.mts;
 
-import java.math.BigDecimal;
 import java.util.LinkedList;
 
 public abstract class Pet extends AbstractAnimal{
@@ -12,8 +11,5 @@ public abstract class Pet extends AbstractAnimal{
         breed.add("Любящий");
         int rand = (int) (Math.random() * 3);
         return breed.get(rand);
-    }
-    public void nameClass(){
-        System.out.println("Pet");
     }
 }

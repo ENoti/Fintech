@@ -1,43 +1,46 @@
-package main.java.ru.mts;
+package main.java.ru.mts.animals;
+
+import main.java.ru.mts.Pet;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
-import java.util.Random;
 
-public class Cat extends Pet{
+public class Dog extends Pet {
+
     @Override
     public String getBreed() {
         LinkedList<String> breed = new LinkedList<>();
-        breed.add("Мейн-кун");
-        breed.add("Шотландец");
-        breed.add("Британец");
+        breed.add("Овчарка");
+        breed.add("Чихуа-хуа");
+        breed.add("Шпиц");
         int rand = (int) (Math.random() * 3);
         return breed.get(rand);
     }
     @Override
     public String getName() {
         LinkedList<String> breed = new LinkedList<>();
-        breed.add("Фродо");
-        breed.add("Рыжий");
-        breed.add("Леопольд");
+        breed.add("Сосиска");
+        breed.add("Джордж");
+        breed.add("Тарзан");
         int rand = (int) (Math.random() * 3);
         return breed.get(rand);
     }
     @Override
     public BigDecimal getCost() {
         LinkedList<BigDecimal> breed = new LinkedList<>();
-        breed.add(BigDecimal.valueOf(50000));
-        breed.add(BigDecimal.valueOf(10000));
-        breed.add(BigDecimal.valueOf(200000));
+        breed.add(BigDecimal.valueOf(70000));
+        breed.add(BigDecimal.valueOf(15000));
+        breed.add(BigDecimal.valueOf(20200));
         int rand = (int) (Math.random() * 3);
         return breed.get(rand);
     }
 
-    public Cat() {
-        this.nameClass();
+    public Dog() {
         name = getName();
         breed = getBreed();
         cost = getCost();
         character = getCharacter();
+        birthDate = getBirthDate();
     }
+
 }
