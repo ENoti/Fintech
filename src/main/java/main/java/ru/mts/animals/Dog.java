@@ -1,46 +1,59 @@
 package main.java.ru.mts.animals;
 
+import main.java.ru.mts.AbstractAnimal;
 import main.java.ru.mts.Pet;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Dog extends Pet {
 
-    @Override
+    public Dog(){
+        List<String> breed = Arrays.asList("Овчарка", "Чихуа-хуа", "Шпиц");
+        int rand = (int) (Math.random() * 3);
+        this.breed = breed.get(rand);
+        List<String> name = Arrays.asList("Сосиска", "Джордж", "Тарзан");
+        rand = (int) (Math.random() * 3);
+        this.name = name.get(rand);
+        List<Integer> cost = Arrays.asList(70000, 15000, 20200);
+        rand = (int) (Math.random() * 3);
+        this.cost = BigDecimal.valueOf(cost.get(rand));
+        this.birthDate = getBirthDateGen();
+        this.character = getCharacterGen();
+    }
     public String getBreed() {
-        LinkedList<String> breed = new LinkedList<>();
-        breed.add("Овчарка");
-        breed.add("Чихуа-хуа");
-        breed.add("Шпиц");
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
-    }
-    @Override
-    public String getName() {
-        LinkedList<String> breed = new LinkedList<>();
-        breed.add("Сосиска");
-        breed.add("Джордж");
-        breed.add("Тарзан");
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
-    }
-    @Override
-    public BigDecimal getCost() {
-        LinkedList<BigDecimal> breed = new LinkedList<>();
-        breed.add(BigDecimal.valueOf(70000));
-        breed.add(BigDecimal.valueOf(15000));
-        breed.add(BigDecimal.valueOf(20200));
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
+        return breed;
     }
 
-    public Dog() {
-        name = getName();
-        breed = getBreed();
-        cost = getCost();
-        character = getCharacter();
-        birthDate = getBirthDate();
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractAnimal that = (AbstractAnimal) o;
+        return Objects.equals(breed, that.getBreed()) && Objects.equals(name, that.getName()) &&
+                Objects.equals(cost, that.getCost()) && Objects.equals(character, that.getCharacter())
+                && Objects.equals(birthDate, that.getBirthDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(breed, name, cost, character, birthDate);
     }
 
 }

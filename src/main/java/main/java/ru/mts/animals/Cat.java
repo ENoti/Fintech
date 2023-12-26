@@ -1,43 +1,61 @@
 package main.java.ru.mts.animals;
 
+import main.java.ru.mts.AbstractAnimal;
 import main.java.ru.mts.Pet;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class Cat extends Pet {
-    @Override
+
+    public Cat(){
+        List<String> breed = Arrays.asList("Мейн-кун", "Шотландец", "Британец");
+        int rand = (int) (Math.random() * 3);
+        this.breed = breed.get(rand);
+        List<String> name = Arrays.asList("Фродо", "Рыжий", "Леопольд");
+        rand = (int) (Math.random() * 3);
+        this.name = name.get(rand);
+        List<Integer> cost = Arrays.asList(50000, 10000, 200000);
+        rand = (int) (Math.random() * 3);
+        this.cost = BigDecimal.valueOf(cost.get(rand));
+        this.birthDate = getBirthDateGen();
+        this.character = getCharacterGen();
+    }
     public String getBreed() {
-        LinkedList<String> breed = new LinkedList<>();
-        breed.add("Мейн-кун");
-        breed.add("Шотландец");
-        breed.add("Британец");
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
-    }
-    @Override
-    public String getName() {
-        LinkedList<String> breed = new LinkedList<>();
-        breed.add("Фродо");
-        breed.add("Рыжий");
-        breed.add("Леопольд");
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
-    }
-    @Override
-    public BigDecimal getCost() {
-        LinkedList<BigDecimal> breed = new LinkedList<>();
-        breed.add(BigDecimal.valueOf(50000));
-        breed.add(BigDecimal.valueOf(10000));
-        breed.add(BigDecimal.valueOf(200000));
-        int rand = (int) (Math.random() * 3);
-        return breed.get(rand);
+        return breed;
     }
 
-    public Cat() {
-        name = getName();
-        breed = getBreed();
-        cost = getCost();
-        character = getCharacter();
-        birthDate = getBirthDate();
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractAnimal that = (AbstractAnimal) o;
+        return Objects.equals(breed, that.getBreed()) && Objects.equals(name, that.getName()) &&
+                Objects.equals(cost, that.getCost()) && Objects.equals(character, that.getCharacter())
+                && Objects.equals(birthDate, that.getBirthDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(breed, name, cost, character, birthDate);
     }
 }

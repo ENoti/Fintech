@@ -9,14 +9,14 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         arrayAnimal[0] = choiceAnimal(0);
         arrayAnimal[0].name = "TestName";
         arrayAnimal[0].cost = BigDecimal.valueOf(0);
-        arrayAnimal[0].birthDate = LocalDate.ofEpochDay(2002- 6 -28);
+        arrayAnimal[0].birthDate = LocalDate.parse("2002-06-28");
         arrayAnimal[0].breed = "Королевский род";
         arrayAnimal[0].character = "Норм чел";
 
         arrayAnimal[1] = choiceAnimal(0);
         arrayAnimal[1].name = "TestName";
         arrayAnimal[1].cost = BigDecimal.valueOf(0);
-        arrayAnimal[1].birthDate = LocalDate.ofEpochDay(2002- 6 -28);
+        arrayAnimal[1].birthDate = LocalDate.parse("2002-06-28");
         arrayAnimal[1].breed = "Королевский род";
         arrayAnimal[1].character = "Норм чел";
 

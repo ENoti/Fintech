@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 
 public abstract class Predator extends AbstractAnimal {
-    @Override
-    public String getCharacter() {
+
+    public String getCharacterGen() {
         LinkedList<String> breed = new LinkedList<>();
         breed.add("Злой");
         breed.add("Жестокий");

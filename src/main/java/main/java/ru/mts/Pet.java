@@ -3,8 +3,8 @@ package main.java.ru.mts;
 import java.util.LinkedList;
 
 public abstract class Pet extends AbstractAnimal{
-    @Override
-    public String getCharacter() {
+
+    public String getCharacterGen() {
         LinkedList<String> breed = new LinkedList<>();
         breed.add("Добрый");
         breed.add("Милый");

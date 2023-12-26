@@ -14,7 +14,6 @@ public interface CreateAnimalService {
             case 3 -> new Shark();
             default -> null;
         };
-        ;
         return animal;
     }
     default AbstractAnimal[] createAnimal(){
@@ -27,10 +26,4 @@ public interface CreateAnimalService {
         }
         return arrayAnimal;
     }
-//    default void print(AbstractAnimal abstractAnimal){
-//        System.out.println("Порода: " + abstractAnimal.getBreed());
-//        System.out.println("Кличка: " + abstractAnimal.getName());
-//        System.out.println("Характер: " + abstractAnimal.getCharacter());
-//        System.out.println("Цена в магазине: " + abstractAnimal.getCost() + "\n");
-//    }
 }
