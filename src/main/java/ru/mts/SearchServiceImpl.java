@@ -1,4 +1,4 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.util.ArrayList;
 
@@ -21,13 +21,20 @@ public class SearchServiceImpl implements SearchService{
         }
         return arrayOldAnimals;
     }
-    public void findDuplicate(AbstractAnimal[] arrayAnimals){
+
+    public ArrayList<AbstractAnimal> findDuplicate(AbstractAnimal[] arrayAnimals){
+        ArrayList<AbstractAnimal> arrayFindDuplicates = new ArrayList<>();
         for (int i = 0; i < arrayAnimals.length; i++) {
             for (int j = i+1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
-                    System.out.println(arrayAnimals[i]);
+                    arrayFindDuplicates.add(arrayAnimals[i]);
                 }
             }
         }
+        return arrayFindDuplicates;
+    }
+
+    public void printDuplicate(AbstractAnimal[] arrayAnimals){
+        System.out.println(findDuplicate(arrayAnimals));
     }
 }

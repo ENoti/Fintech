@@ -1,4 +1,4 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.util.LinkedList;
 

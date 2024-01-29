@@ -1,4 +1,4 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public interface SearchService {
     default ArrayList<AbstractAnimal> findOlderAnimal(AbstractAnimal[] arrayAnimals, int N){
         return new ArrayList<>();
     }
-    default void findDuplicate(AbstractAnimal[] arrayAnimals){
+    default ArrayList<AbstractAnimal> findDuplicate(AbstractAnimal[] arrayAnimals){
+        return new ArrayList<>();
     }
-
 }

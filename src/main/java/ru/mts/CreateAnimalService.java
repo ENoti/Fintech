@@ -1,9 +1,4 @@
-package main.java.ru.mts;
-
-import main.java.ru.mts.animals.Cat;
-import main.java.ru.mts.animals.Dog;
-import main.java.ru.mts.animals.Shark;
-import main.java.ru.mts.animals.Wolf;
+package ru.mts;
 
 public interface CreateAnimalService {
     default AbstractAnimal choiceAnimal(int type){

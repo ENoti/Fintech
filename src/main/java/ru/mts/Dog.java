@@ -1,24 +1,22 @@
-package main.java.ru.mts.animals;
+package ru.mts;
 
-import main.java.ru.mts.AbstractAnimal;
-import main.java.ru.mts.Pet;
+import ru.mts.AbstractAnimal;
+import ru.mts.Pet;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public class Cat extends Pet {
+public class Dog extends Pet {
 
-    public Cat(){
-        List<String> breed = Arrays.asList("Мейн-кун", "Шотландец", "Британец");
+    public Dog(){
+        List<String> breed = Arrays.asList("Овчарка", "Чихуа-хуа", "Шпиц");
         int rand = (int) (Math.random() * 3);
         this.breed = breed.get(rand);
-        List<String> name = Arrays.asList("Фродо", "Рыжий", "Леопольд");
+        List<String> name = Arrays.asList("Сосиска", "Джордж", "Тарзан");
         rand = (int) (Math.random() * 3);
         this.name = name.get(rand);
-        List<Integer> cost = Arrays.asList(50000, 10000, 200000);
+        List<Integer> cost = Arrays.asList(70000, 15000, 20200);
         rand = (int) (Math.random() * 3);
         this.cost = BigDecimal.valueOf(cost.get(rand));
         this.birthDate = getBirthDateGen();
@@ -43,7 +41,6 @@ public class Cat extends Pet {
     public LocalDate getBirthDate() {
         return birthDate;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,4 +55,5 @@ public class Cat extends Pet {
     public int hashCode() {
         return Objects.hash(breed, name, cost, character, birthDate);
     }
+
 }

@@ -1,8 +1,7 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 

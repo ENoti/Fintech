@@ -1,6 +1,5 @@
-package main.java.ru.mts;
+package ru.mts;
 
-import java.math.BigDecimal;
 import java.util.LinkedList;
 
 public abstract class Predator extends AbstractAnimal {

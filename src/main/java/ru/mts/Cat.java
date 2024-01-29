@@ -1,25 +1,23 @@
-package main.java.ru.mts.animals;
+package ru.mts;
 
-import main.java.ru.mts.AbstractAnimal;
-import main.java.ru.mts.Predator;
-
+import ru.mts.AbstractAnimal;
+import ru.mts.Pet;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Wolf extends Predator {
+public class Cat extends Pet {
 
-    public Wolf(){
-        List<String> breed = Arrays.asList("Красный", "Полярый", "Восточный");
+    public Cat(){
+        List<String> breed = Arrays.asList("Мейн-кун", "Шотландец", "Британец");
         int rand = (int) (Math.random() * 3);
         this.breed = breed.get(rand);
-        List<String> name = Arrays.asList("Вулф", "Ауф", "Уффф");
+        List<String> name = Arrays.asList("Фродо", "Рыжий", "Леопольд");
         rand = (int) (Math.random() * 3);
         this.name = name.get(rand);
-        List<Integer> cost = Arrays.asList(40000, 20000, 100000);
+        List<Integer> cost = Arrays.asList(50000, 10000, 200000);
         rand = (int) (Math.random() * 3);
         this.cost = BigDecimal.valueOf(cost.get(rand));
         this.birthDate = getBirthDateGen();

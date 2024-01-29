@@ -1,4 +1,4 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,6 +39,8 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         int N = 10;
         AbstractAnimal[] arrayAnimal = new AbstractAnimal[N];
         int rand;
+        arrayAnimal = testSearch(arrayAnimal);
+        N -= 2;
         do{
             rand = (int) (Math.random() * 4);
             arrayAnimal[arrayAnimal.length-N] = choiceAnimal(rand);

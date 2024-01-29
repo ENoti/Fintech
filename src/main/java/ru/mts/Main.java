@@ -1,4 +1,4 @@
-package main.java.ru.mts;
+package ru.mts;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class Main{
         AbstractAnimal[] abstractAnimals = new CreateAnimalServiceImpl().createAnimal(10);
 
         ArrayList<String> resultLeapYears = new SearchServiceImpl().findLeapYearNames(abstractAnimals);
-        System.out.println("имена животных, которые родились в високосный год:");
+        System.out.println("Имена животных, которые родились в високосный год:");
         for (String result : resultLeapYears)
             System.out.println(result);
 
@@ -20,5 +20,7 @@ public class Main{
 
         System.out.println("\nДубликаты:");
         new SearchServiceImpl().findDuplicate(abstractAnimals);
+
+
     }
 }
