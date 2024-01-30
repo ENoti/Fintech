@@ -22,19 +22,14 @@ public class SearchServiceImpl implements SearchService{
         return arrayOldAnimals;
     }
 
-    public ArrayList<AbstractAnimal> findDuplicate(AbstractAnimal[] arrayAnimals){
-        ArrayList<AbstractAnimal> arrayFindDuplicates = new ArrayList<>();
+    public Boolean findDuplicate(AbstractAnimal[] arrayAnimals){
         for (int i = 0; i < arrayAnimals.length; i++) {
             for (int j = i+1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
-                    arrayFindDuplicates.add(arrayAnimals[i]);
+                    return true;
                 }
             }
         }
-        return arrayFindDuplicates;
-    }
-
-    public void printDuplicate(AbstractAnimal[] arrayAnimals){
-        System.out.println(findDuplicate(arrayAnimals));
+        return false;
     }
 }

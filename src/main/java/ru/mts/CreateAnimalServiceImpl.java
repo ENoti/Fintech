@@ -26,8 +26,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     public AbstractAnimal[] createAnimal(int N){
         AbstractAnimal[] arrayAnimal = new AbstractAnimal[N];
         int rand;
-        arrayAnimal = testSearch(arrayAnimal);
-        N -= 2;
         while (N != 0) {
             rand = (int) (Math.random() * 4);
             arrayAnimal[arrayAnimal.length-N] = choiceAnimal(rand);

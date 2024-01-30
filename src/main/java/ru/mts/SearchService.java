@@ -9,7 +9,7 @@ public interface SearchService {
     default ArrayList<AbstractAnimal> findOlderAnimal(AbstractAnimal[] arrayAnimals, int N){
         return new ArrayList<>();
     }
-    default ArrayList<AbstractAnimal> findDuplicate(AbstractAnimal[] arrayAnimals){
-        return new ArrayList<>();
+    default Boolean findDuplicate(AbstractAnimal[] arrayAnimals){
+        return true;
     }
 }

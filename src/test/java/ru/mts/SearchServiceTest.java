@@ -110,9 +110,18 @@ class SearchServiceTest {
         }
         @DisplayName("findDuplicate Test")
         @Test
-        void findDuplicateTest(){
-            System.out.println("========TEST THREE EXECUTED=======");
-            System.out.println(new SearchServiceImpl().findDuplicate(abstractAnimals));
+        void findDuplicateTestTrue(){
+            System.out.println("========TEST THREE.ONE EXECUTED=======");
+            //Создаются два одинаковых объекта в начале списка животных
+            Assertions.assertTrue(new SearchServiceImpl().findDuplicate(abstractAnimals));
+        }
+        @DisplayName("findDuplicate Test")
+        @Test
+        void findDuplicateTestFalse(){
+            System.out.println("========TEST THREE.TWO EXECUTED=======");
+            //Не создаются два одинаковых объекта в начале списка животных
+            abstractAnimals = new CreateAnimalServiceImpl().createAnimal(10);
+            Assertions.assertFalse(new SearchServiceImpl().findDuplicate(abstractAnimals));
         }
     }
 
