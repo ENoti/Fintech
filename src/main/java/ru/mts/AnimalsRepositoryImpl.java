@@ -1,6 +1,5 @@
 package ru.mts;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -10,13 +9,14 @@ import java.util.ArrayList;
 
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
-
-    ApplicationContext context = new AnnotationConfigApplicationContext(CreateConfiguration.class);
+    @Autowired
+    private CreateAnimalService createAnimalService;
 
     AbstractAnimal[] arrayAnimals;
+
     @PostConstruct
     public void postConstruct(){
-        arrayAnimals = context.getBean(CreateAnimalService.class).createMasAnimal();
+        arrayAnimals = createAnimalService.createMasAnimal();
     }
 
     public ArrayList<String> findLeapYearNames() {
