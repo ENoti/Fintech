@@ -1,8 +1,7 @@
 package ru.mts;
 
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Component;
-@Component
+
 public interface CreateAnimalService {
 
     default AbstractAnimal choiceAnimal(int type){

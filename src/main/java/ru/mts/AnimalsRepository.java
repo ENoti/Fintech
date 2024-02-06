@@ -1,8 +1,7 @@
 package ru.mts;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-@Component
+
 public interface AnimalsRepository {
 
     default ArrayList<String> findLeapYearNames(){

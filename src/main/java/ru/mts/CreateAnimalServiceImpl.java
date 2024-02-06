@@ -1,12 +1,14 @@
 package ru.mts;
 
 import org.springframework.beans.BeansException;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
+@Scope("prototype")
 public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     public AbstractAnimal choiceAnimal(int type){
