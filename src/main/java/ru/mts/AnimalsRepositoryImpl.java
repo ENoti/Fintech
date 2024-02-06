@@ -1,9 +1,25 @@
 package ru.mts;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 
-public class SearchServiceImpl implements SearchService{
-    public ArrayList<String> findLeapYearNames(AbstractAnimal[] arrayAnimals){
+
+@Component
+public class AnimalsRepositoryImpl implements AnimalsRepository {
+
+    ApplicationContext context = new AnnotationConfigApplicationContext(CreateConfiguration.class);
+
+    AbstractAnimal[] arrayAnimals;
+    @PostConstruct
+    public void postConstruct(){
+        arrayAnimals = context.getBean(CreateAnimalService.class).createMasAnimal();
+    }
+
+    public ArrayList<String> findLeapYearNames() {
         ArrayList<String> arrayLeapYear = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
             if (arrayAnimal.birthDate.getYear() % 400 == 0 ||
@@ -13,7 +29,7 @@ public class SearchServiceImpl implements SearchService{
         }
         return arrayLeapYear;
     }
-    public ArrayList<AbstractAnimal> findOlderAnimal(AbstractAnimal[] arrayAnimals, int N){
+    public ArrayList<AbstractAnimal> findOlderAnimal(int N) {
         ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
             if (arrayAnimal.birthDate.getYear() > N)
@@ -22,9 +38,9 @@ public class SearchServiceImpl implements SearchService{
         return arrayOldAnimals;
     }
 
-    public Boolean findDuplicate(AbstractAnimal[] arrayAnimals){
+    public Boolean findDuplicate() {
         for (int i = 0; i < arrayAnimals.length; i++) {
-            for (int j = i+1; j < arrayAnimals.length; j++) {
+            for (int j = i + 1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
                     return true;
                 }

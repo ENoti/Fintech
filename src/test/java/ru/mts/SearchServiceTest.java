@@ -3,10 +3,12 @@ package ru.mts;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@ComponentScan
 class SearchServiceTest {
     AbstractAnimal[] abstractAnimals;
     @Nested
@@ -92,36 +94,36 @@ class SearchServiceTest {
     class SearchServiceImplTest{
         @BeforeEach
         void createAnimal(){
-            abstractAnimals = new CreateAnimalServiceImpl().createAnimal();
+            abstractAnimals = new CreateAnimalServiceImpl().createMasAnimal();
         }
 
         @DisplayName("findLeapYearNames Test")
         @Test
         void findLeapYearNamesTest(){
             System.out.println("========TEST ONE EXECUTED=======");
-            System.out.println(new SearchServiceImpl().findLeapYearNames(abstractAnimals));
+            System.out.println(new AnimalsRepositoryImpl().findLeapYearNames());
         }
         @DisplayName("findOlderAnimal Test")
         @ParameterizedTest
         @ValueSource(ints = {6,7,8,9,10,Integer.MAX_VALUE})
         void findOlderAnimalTest(int number){
             System.out.println("========TEST TWO EXECUTED=======");
-            System.out.println(new SearchServiceImpl().findOlderAnimal(abstractAnimals, number));
+            System.out.println(new AnimalsRepositoryImpl().findOlderAnimal(number));
         }
         @DisplayName("findDuplicate Test")
         @Test
         void findDuplicateTestTrue(){
             System.out.println("========TEST THREE.ONE EXECUTED=======");
             //Создаются два одинаковых объекта в начале списка животных
-            Assertions.assertTrue(new SearchServiceImpl().findDuplicate(abstractAnimals));
+            Assertions.assertTrue(new AnimalsRepositoryImpl().findDuplicate());
         }
         @DisplayName("findDuplicate Test")
         @Test
         void findDuplicateTestFalse(){
             System.out.println("========TEST THREE.TWO EXECUTED=======");
             //Не создаются два одинаковых объекта в начале списка животных
-            abstractAnimals = new CreateAnimalServiceImpl().createAnimal(10);
-            Assertions.assertFalse(new SearchServiceImpl().findDuplicate(abstractAnimals));
+            abstractAnimals = new CreateAnimalServiceImpl().createMasAnimal(10);
+            Assertions.assertFalse(new AnimalsRepositoryImpl().findDuplicate());
         }
     }
 
