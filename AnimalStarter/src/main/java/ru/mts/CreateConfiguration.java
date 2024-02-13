@@ -1,24 +1,43 @@
 package ru.mts;
-
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Component
-@Scope("prototype")
-public class CreateAnimalServiceImpl implements CreateAnimalService {
+@Configuration
+@EnableConfigurationProperties(AnimalProperties.class)
+public class CreateConfiguration {
 
-    public AbstractAnimal choiceAnimal(int type){
-        return switch (type) {
-            case 0 -> new Dog();
-            case 1 -> new Cat();
-            case 2 -> new Wolf();
-            case 3 -> new Shark();
-            default -> null;
-        };
+    @Autowired
+    AnimalProperties animalProperties;
+
+    public AbstractAnimal choiceAnimal(int type) {
+        AbstractAnimal abstractAnimal = null;
+        switch (type) {
+            case 0: {
+                abstractAnimal = new Dog();
+                break;
+            }
+            case 1: {
+                abstractAnimal = new Cat();
+                break;
+            }
+            case 2: {
+                abstractAnimal = new Wolf();
+                break;
+            }
+            case 3: {
+                abstractAnimal = new Shark();
+                break;
+            }
+        }
+        return abstractAnimal;
     }
 
     public AbstractAnimal[] testSearch(AbstractAnimal[] arrayAnimal){
@@ -38,31 +57,35 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
         return arrayAnimal;
     }
+    @Lazy
+    @Autowired
+    AbstractAnimal typeAnimal;
 
-    AbstractAnimal typeAnimal = null;
-
+    @Bean
+    @Scope("prototype")
     public AbstractAnimal createAnimal(){
         int rand = (int) (Math.random() * 4);
         typeAnimal = choiceAnimal(rand);
         return typeAnimal;
     }
 
-    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         int rand = (int) (Math.random() * 4);
         typeAnimal = choiceAnimal(rand);
         return bean;
     }
-
+    @Bean
     public AbstractAnimal[] createMasAnimal(int N){
         AbstractAnimal[] arrayAnimal = new AbstractAnimal[N];
         while (N != 0) {
             arrayAnimal[arrayAnimal.length-N] = createAnimal();
+            arrayAnimal[arrayAnimal.length-N].name = animalProperties.getNameAnimal();
             N--;
         }
         return arrayAnimal;
     }
 
+    @Bean
     public AbstractAnimal[] createMasAnimal(){
         int N = 10;
         AbstractAnimal[] arrayAnimal = new AbstractAnimal[N];
@@ -70,6 +93,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         N -= 2;
         do{
             arrayAnimal[arrayAnimal.length-N] = createAnimal();
+            arrayAnimal[arrayAnimal.length-N].name = animalProperties.getNameAnimal();
             N--;
         }while (N!=0);
         return arrayAnimal;

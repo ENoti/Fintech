@@ -1,5 +1,6 @@
 package ru.mts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -8,16 +9,17 @@ import java.util.ArrayList;
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Autowired
-    private CreateAnimalService createAnimalService;
+    private CreateConfiguration createConfiguration;
 
     AbstractAnimal[] arrayAnimals;
 
     @PostConstruct
     public void postConstruct(){
-        arrayAnimals = createAnimalService.createMasAnimal();
+        arrayAnimals = createConfiguration.createMasAnimal();
     }
 
-    public ArrayList<String> findLeapYearNames() {
+    @Scheduled(fixedDelay = 50000)
+    public void findLeapYearNames() {
         ArrayList<String> arrayLeapYear = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
             if (arrayAnimal.birthDate.getYear() % 400 == 0 ||
@@ -25,25 +27,36 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 arrayLeapYear.add(arrayAnimal.name);
             }
         }
-        return arrayLeapYear;
+        System.out.println("Имена животных, которые родились в високосный год:");
+        for (String result : arrayLeapYear)
+            System.out.println(result);
+
     }
-    public ArrayList<AbstractAnimal> findOlderAnimal(int N) {
+
+    @Scheduled(fixedDelay = 50000)
+    public void findOlderAnimal() {
+        int N = 2015;
         ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
             if (arrayAnimal.birthDate.getYear() > N)
                 arrayOldAnimals.add(arrayAnimal);
         }
-        return arrayOldAnimals;
+        System.out.println("\nЖивотные, дата рождения которых больше " + N + ":");
+        for (AbstractAnimal result : arrayOldAnimals)
+            System.out.println(result);
     }
 
-    public Boolean findDuplicate() {
+    @Scheduled(fixedDelay = 50000)
+    public void findDuplicate() {
+        System.out.println("\nДубликаты:");
         for (int i = 0; i < arrayAnimals.length; i++) {
             for (int j = i + 1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
-                    return true;
+                    System.out.println("true");
+                    return;
                 }
             }
         }
-        return false;
+        System.out.println("false");
     }
 }

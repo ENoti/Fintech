@@ -14,9 +14,6 @@ public class Cat extends Pet {
         List<String> breed = Arrays.asList("Мейн-кун", "Шотландец", "Британец");
         int rand = (int) (Math.random() * 3);
         this.breed = breed.get(rand);
-        List<String> name = Arrays.asList("Фродо", "Рыжий", "Леопольд");
-        rand = (int) (Math.random() * 3);
-        this.name = name.get(rand);
         List<Integer> cost = Arrays.asList(50000, 10000, 200000);
         rand = (int) (Math.random() * 3);
         this.cost = BigDecimal.valueOf(cost.get(rand));

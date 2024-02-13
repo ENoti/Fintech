@@ -15,9 +15,6 @@ public class Shark extends Predator {
         List<String> breed = Arrays.asList("Китовая", "Лисья", "Усатая");
         int rand = (int) (Math.random() * 3);
         this.breed = breed.get(rand);
-        List<String> name = Arrays.asList("Клык", "Шпик", "Рыг");
-        rand = (int) (Math.random() * 3);
-        this.name = name.get(rand);
         List<Integer> cost = Arrays.asList(500000, 100000, 2000000);
         rand = (int) (Math.random() * 3);
         this.cost = BigDecimal.valueOf(cost.get(rand));

@@ -1,22 +1,21 @@
 package ru.mts;
 
 import ru.mts.AbstractAnimal;
-import ru.mts.Pet;
+import ru.mts.Predator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
-public class Dog extends Pet {
+public class Wolf extends Predator {
 
-    public Dog(){
-        List<String> breed = Arrays.asList("Овчарка", "Чихуа-хуа", "Шпиц");
+    public Wolf(){
+        List<String> breed = Arrays.asList("Красный", "Полярый", "Восточный");
         int rand = (int) (Math.random() * 3);
         this.breed = breed.get(rand);
-        List<String> name = Arrays.asList("Сосиска", "Джордж", "Тарзан");
-        rand = (int) (Math.random() * 3);
-        this.name = name.get(rand);
-        List<Integer> cost = Arrays.asList(70000, 15000, 20200);
+        List<Integer> cost = Arrays.asList(40000, 20000, 100000);
         rand = (int) (Math.random() * 3);
         this.cost = BigDecimal.valueOf(cost.get(rand));
         this.birthDate = getBirthDateGen();
@@ -41,6 +40,7 @@ public class Dog extends Pet {
     public LocalDate getBirthDate() {
         return birthDate;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,5 +55,4 @@ public class Dog extends Pet {
     public int hashCode() {
         return Objects.hash(breed, name, cost, character, birthDate);
     }
-
 }
