@@ -18,7 +18,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         arrayAnimals = createConfiguration.createMasAnimal();
     }
 
-    @Scheduled(fixedDelay = 50000)
+    @Scheduled(fixedDelay = 60000)
     public void findLeapYearNames() {
         ArrayList<String> arrayLeapYear = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
@@ -33,7 +33,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     }
 
-    @Scheduled(fixedDelay = 50000)
+    @Scheduled(fixedDelay = 60000)
     public void findOlderAnimal() {
         int N = 2015;
         ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
@@ -46,7 +46,18 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             System.out.println(result);
     }
 
-    @Scheduled(fixedDelay = 50000)
+    public void findOlderAnimal(int N) {
+        ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
+        for (AbstractAnimal arrayAnimal : arrayAnimals) {
+            if (arrayAnimal.birthDate.getYear() > N)
+                arrayOldAnimals.add(arrayAnimal);
+        }
+        System.out.println("\nЖивотные, дата рождения которых больше " + N + ":");
+        for (AbstractAnimal result : arrayOldAnimals)
+            System.out.println(result);
+    }
+
+    @Scheduled(fixedDelay = 60000)
     public void findDuplicate() {
         System.out.println("\nДубликаты:");
         for (int i = 0; i < arrayAnimals.length; i++) {
