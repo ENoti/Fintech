@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public abstract class AbstractAnimal implements Animal {
+
     protected String breed; //порода
     protected String name; //имя
     protected BigDecimal cost; //цена в магазине, до двух знаков после запятой
@@ -28,6 +29,29 @@ public abstract class AbstractAnimal implements Animal {
                 "Character = " + character + '\n' +
                 "Date = " + birthDate + '\n' +
                 "}\n";
+    }
+
+    public AbstractAnimal choiceAnimal(int type) {
+        AbstractAnimal abstractAnimal = null;
+        switch (type) {
+            case 0: {
+                abstractAnimal = new Dog();
+                break;
+            }
+            case 1: {
+                abstractAnimal = new Cat();
+                break;
+            }
+            case 2: {
+                abstractAnimal = new Wolf();
+                break;
+            }
+            case 3: {
+                abstractAnimal = new Shark();
+                break;
+            }
+        }
+        return abstractAnimal;
     }
 
     public abstract boolean equals(Object o);
