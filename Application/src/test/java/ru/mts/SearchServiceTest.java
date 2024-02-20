@@ -102,6 +102,7 @@ class SearchServiceTest {
         @Test
         void findLeapYearNamesTest(){
             System.out.println("========TEST ONE EXECUTED=======");
+            System.out.println("Имена животных, которые родились в високосный год:");
             animalsRepository.findLeapYearNames();
         }
         @DisplayName("findOlderAnimal Test")
@@ -109,19 +110,22 @@ class SearchServiceTest {
         @ValueSource(ints = {2016,2017,2018,2019,2015,Integer.MAX_VALUE})
         void findOlderAnimalTest(int number){
             System.out.println("========TEST TWO EXECUTED=======");
+            System.out.println("\nЖивотные, дата рождения которых больше " + number + ":");
             animalsRepository.findOlderAnimal(number);
         }
         @DisplayName("findDuplicate Test")
         @Test
         void findDuplicateTestTrue(){
             System.out.println("========TEST THREE.ONE EXECUTED=======");
+            System.out.println("\nДубликаты:");
             //Создаются два одинаковых объекта в начале списка животных
-            Assertions.assertFalse(animalsRepository.findDuplicateTrue());
+            Assertions.assertTrue(animalsRepository.findDuplicateTrue());
         }
         @DisplayName("findDuplicate Test")
         @Test
         void findDuplicateTestFalse(){
             System.out.println("========TEST THREE.TWO EXECUTED=======");
+            System.out.println("\nДубликаты:");
             //Не создаются два одинаковых объекта в начале списка животных
             Assertions.assertFalse(animalsRepository.findDuplicateFalse());
         }

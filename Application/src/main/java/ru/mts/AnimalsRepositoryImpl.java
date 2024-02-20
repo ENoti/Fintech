@@ -8,14 +8,15 @@ import java.util.ArrayList;
 
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
+
     @Autowired
-    private AppConfiguration appConfiguration;
+    CreateAnimalServiceImpl createAnimalService;
 
     AbstractAnimal[] arrayAnimals;
 
     @PostConstruct
     public void postConstruct(){
-        arrayAnimals = appConfiguration.createMasAnimal();
+        arrayAnimals = createAnimalService.createMasAnimal();
     }
 
     @Scheduled(fixedDelay = 60000)
@@ -27,7 +28,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 arrayLeapYear.add(arrayAnimal.name);
             }
         }
-        System.out.println("Имена животных, которые родились в високосный год:");
         for (String result : arrayLeapYear)
             System.out.println(result);
 
@@ -39,14 +39,12 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
             if (arrayAnimal.birthDate.getYear() > N)
                 arrayOldAnimals.add(arrayAnimal);
         }
-        System.out.println("\nЖивотные, дата рождения которых больше " + N + ":");
         for (AbstractAnimal result : arrayOldAnimals)
             System.out.println(result);
     }
 
     @Scheduled(fixedDelay = 60000)
     public boolean findDuplicateTrue() {
-        System.out.println("\nДубликаты:");
         for (int i = 0; i < arrayAnimals.length; i++) {
             for (int j = i + 1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
@@ -59,8 +57,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Scheduled(fixedDelay = 60000)
     public boolean findDuplicateFalse() {
-        AbstractAnimal[] arrayAnimals2 = appConfiguration.createMasAnimal(10);
-        System.out.println("\nДубликаты:");
+        AbstractAnimal[] arrayAnimals2 = createAnimalService.createMasAnimal(10);
         for (int i = 0; i < arrayAnimals2.length; i++) {
             for (int j = i + 1; j < arrayAnimals2.length; j++) {
                 if (arrayAnimals2[i].equals(arrayAnimals2[j])) {

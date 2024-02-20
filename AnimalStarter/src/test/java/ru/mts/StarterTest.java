@@ -2,29 +2,20 @@ package ru.mts;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AppConfiguration.class, CreateConfiguration.class})
+@SpringBootTest
 @ActiveProfiles("test")
 class StarterTest {
 
     @Autowired
-    private AnimalProperties animalProperties;
-
-    @Autowired AppConfiguration appConfiguration;
-
+    AbstractAnimal createAnimal;
     @Autowired
-    private CreateConfiguration createConfiguration;
-
+    AbstractAnimal typeAnimal;
     @Autowired
-    private AbstractAnimal abstractAnimal;
+    AnimalProperties animalProperties;
 
     @DisplayName("Random in name Test")
     @Test
@@ -50,11 +41,12 @@ class StarterTest {
         System.out.println(name + " " + name2);
         Assertions.assertEquals(name, name2);
     }
+
     @DisplayName("Check Class Animal Test")
     @Test
     void checkClassAnimalTest(){
-        abstractAnimal = createConfiguration.choiceAnimal(0); //Class dog
-        assert abstractAnimal instanceof Dog;
+        typeAnimal = typeAnimal.choiceAnimal(0); //Class dog
+        assert typeAnimal instanceof Dog;
     }
 
 }
