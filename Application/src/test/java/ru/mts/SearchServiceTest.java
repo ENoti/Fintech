@@ -4,19 +4,13 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.test.context.ActiveProfiles;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@SpringBootTest
+@SpringBootTest(classes = AppConfiguration.class)
 class SearchServiceTest {
 
     @Nested
@@ -122,15 +116,15 @@ class SearchServiceTest {
         void findDuplicateTestTrue(){
             System.out.println("========TEST THREE.ONE EXECUTED=======");
             //Создаются два одинаковых объекта в начале списка животных
-            animalsRepository.findDuplicate();
+            Assertions.assertFalse(animalsRepository.findDuplicateTrue());
         }
-//        @DisplayName("findDuplicate Test")
-//        @Test
-//        void findDuplicateTestFalse(){
-//            System.out.println("========TEST THREE.TWO EXECUTED=======");
-//            //Не создаются два одинаковых объекта в начале списка животных
-//            animalsRepository.findDuplicate();
-//        }
+        @DisplayName("findDuplicate Test")
+        @Test
+        void findDuplicateTestFalse(){
+            System.out.println("========TEST THREE.TWO EXECUTED=======");
+            //Не создаются два одинаковых объекта в начале списка животных
+            Assertions.assertFalse(animalsRepository.findDuplicateFalse());
+        }
     }
 
 }

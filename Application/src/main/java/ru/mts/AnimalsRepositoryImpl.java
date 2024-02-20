@@ -9,13 +9,13 @@ import java.util.ArrayList;
 @Component
 public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Autowired
-    private CreateConfiguration createConfiguration;
+    private AppConfiguration appConfiguration;
 
     AbstractAnimal[] arrayAnimals;
 
     @PostConstruct
     public void postConstruct(){
-        arrayAnimals = createConfiguration.createMasAnimal();
+        arrayAnimals = appConfiguration.createMasAnimal();
     }
 
     @Scheduled(fixedDelay = 60000)
@@ -33,19 +33,6 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     }
 
-    @Scheduled(fixedDelay = 60000)
-    public void findOlderAnimal() {
-        int N = 2015;
-        ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
-        for (AbstractAnimal arrayAnimal : arrayAnimals) {
-            if (arrayAnimal.birthDate.getYear() > N)
-                arrayOldAnimals.add(arrayAnimal);
-        }
-        System.out.println("\nЖивотные, дата рождения которых больше " + N + ":");
-        for (AbstractAnimal result : arrayOldAnimals)
-            System.out.println(result);
-    }
-
     public void findOlderAnimal(int N) {
         ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
         for (AbstractAnimal arrayAnimal : arrayAnimals) {
@@ -58,16 +45,29 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Scheduled(fixedDelay = 60000)
-    public void findDuplicate() {
+    public boolean findDuplicateTrue() {
         System.out.println("\nДубликаты:");
         for (int i = 0; i < arrayAnimals.length; i++) {
             for (int j = i + 1; j < arrayAnimals.length; j++) {
                 if (arrayAnimals[i].equals(arrayAnimals[j])) {
-                    System.out.println("true");
-                    return;
+                    return true;
                 }
             }
         }
-        System.out.println("false");
+        return false;
+    }
+
+    @Scheduled(fixedDelay = 60000)
+    public boolean findDuplicateFalse() {
+        AbstractAnimal[] arrayAnimals2 = appConfiguration.createMasAnimal(10);
+        System.out.println("\nДубликаты:");
+        for (int i = 0; i < arrayAnimals2.length; i++) {
+            for (int j = i + 1; j < arrayAnimals2.length; j++) {
+                if (arrayAnimals2[i].equals(arrayAnimals2[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
