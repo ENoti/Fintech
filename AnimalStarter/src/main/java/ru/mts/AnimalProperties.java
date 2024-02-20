@@ -1,6 +1,7 @@
 package ru.mts;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 @ConfigurationProperties(prefix = "application")
 public class AnimalProperties {
@@ -14,6 +15,14 @@ public class AnimalProperties {
     public String getNameAnimal() {
         int rand = (int) (Math.random() * 5);
         return animalName[rand];
+    }
+
+    public String chooseNameAnimal(int cnt) {
+        return animalName[cnt];
+    }
+
+    public int countName(){
+        return animalName.length;
     }
 
 }
