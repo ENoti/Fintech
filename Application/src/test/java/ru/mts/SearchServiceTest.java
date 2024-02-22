@@ -107,7 +107,7 @@ class SearchServiceTest {
         }
         @DisplayName("findOlderAnimal Test")
         @ParameterizedTest
-        @ValueSource(ints = {2016,2017,2018,2019,2015,Integer.MAX_VALUE})
+        @ValueSource(ints = {2016,2017,2018,2019,2015,2010})
         void findOlderAnimalTest(int number){
             System.out.println("========TEST TWO EXECUTED=======");
             System.out.println("\nЖивотные, дата рождения которых больше " + number + ":");
