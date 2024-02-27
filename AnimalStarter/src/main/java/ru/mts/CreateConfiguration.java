@@ -44,23 +44,20 @@ public class CreateConfiguration {
         return choiceAnimal(rand);
     }
 
-    public Map<String, List<AbstractAnimal>> testSearch(Map<String, List<AbstractAnimal>> arrayAnimal){
-        List<AbstractAnimal> abstractAnimals = new ArrayList<>();
+    public List<AbstractAnimal> testSearch(List<AbstractAnimal> abstractAnimals){
         abstractAnimals.add(choiceAnimal(0));
         abstractAnimals.get(0).name = "TestName";
         abstractAnimals.get(0).cost = BigDecimal.valueOf(0);
         abstractAnimals.get(0).birthDate = LocalDate.parse("2002-06-28");
         abstractAnimals.get(0).breed = "Королевский род";
         abstractAnimals.get(0).character = "Норм чел";
-        arrayAnimal.put(String.valueOf(choiceAnimal(0)), abstractAnimals);
         abstractAnimals.add(choiceAnimal(0));
         abstractAnimals.get(1).name = "TestName";
         abstractAnimals.get(1).cost = BigDecimal.valueOf(0);
         abstractAnimals.get(1).birthDate = LocalDate.parse("2002-06-28");
         abstractAnimals.get(1).breed = "Королевский род";
         abstractAnimals.get(1).character = "Норм чел";
-        arrayAnimal.put(String.valueOf(choiceAnimal(0)), abstractAnimals);
-        return arrayAnimal;
+        return abstractAnimals;
     }
 
     public Map<String, List<AbstractAnimal>> createMasAnimal(int N) {
@@ -69,7 +66,8 @@ public class CreateConfiguration {
         List<AbstractAnimal> dogs = new ArrayList<>();
         List<AbstractAnimal> sharks = new ArrayList<>();
         List<AbstractAnimal> wolves = new ArrayList<>();
-        arrayAnimal = testSearch(arrayAnimal);
+        dogs = testSearch(dogs);
+        arrayAnimal.put((choiceAnimal(0).getClass().getSimpleName()), AbstractAnimal.getAnimal(dogs));
         N -= 2;
         while (N != 0) {
             AbstractAnimal abstractAnimal = createAnimal();
@@ -82,18 +80,18 @@ public class CreateConfiguration {
             else if (abstractAnimal instanceof Dog) {
                 dogs.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(dogs));
-                arrayAnimal.get((dogs.get(dogs.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((dogs.get(dogs.size()-1).getClass().getSimpleName())).get(dogs.size()-1).name
                         = animalProperties.getNameAnimal();
             } else if (abstractAnimal instanceof Wolf) {
                 wolves.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(wolves));
-                arrayAnimal.get((wolves.get(wolves.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((wolves.get(wolves.size()-1).getClass().getSimpleName())).get(wolves.size()-1).name
                         = animalProperties.getNameAnimal();
             }
             else if (abstractAnimal instanceof Shark) {
                 sharks.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(sharks));
-                arrayAnimal.get((sharks.get(sharks.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((sharks.get(sharks.size()-1).getClass().getSimpleName())).get(sharks.size()-1).name
                         = animalProperties.getNameAnimal();
             }
             N--;
