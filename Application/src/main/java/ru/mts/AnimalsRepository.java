@@ -1,13 +1,20 @@
 package ru.mts;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
 public interface AnimalsRepository {
 
-    default void findLeapYearNames(){
+    default Map<String, LocalDate> findLeapYearNames(){
+        return new HashMap<>();
     }
 
-    default void findOlderAnimal(){
-
+    default Map<AbstractAnimal, Integer> findOlderAnimal(){
+        return new HashMap<>();
     }
 
-    default void findDuplicate(){
+    default Map<String, Integer> findDuplicate(){
+        return new HashMap<>();
     }
 }

@@ -54,6 +54,10 @@ public abstract class AbstractAnimal implements Animal {
         return abstractAnimal;
     }
 
+    public static <T> T getAnimal(Object object) {
+        return (T) object;
+    }
+
     public abstract boolean equals(Object o);
     public abstract int hashCode();
 }

@@ -3,7 +3,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -12,7 +16,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Autowired
     CreateAnimalServiceImpl createAnimalService;
 
-    AbstractAnimal[] arrayAnimals;
+    Map<String, List<AbstractAnimal>> arrayAnimals;
 
     @PostConstruct
     public void postConstruct(){
@@ -20,51 +24,63 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Scheduled(fixedDelay = 60000)
-    public void findLeapYearNames() {
-        ArrayList<String> arrayLeapYear = new ArrayList<>();
-        for (AbstractAnimal arrayAnimal : arrayAnimals) {
-            if (arrayAnimal.birthDate.getYear() % 400 == 0 ||
-                    arrayAnimal.birthDate.getYear() % 4 == 0 && arrayAnimal.birthDate.getYear() % 100 != 0) {
-                arrayLeapYear.add(arrayAnimal.name);
-            }
+    public Map<String, LocalDate> findLeapYearNames() {
+        Map<String, LocalDate> arrayLeapYear = new HashMap<>();
+        for (String key: arrayAnimals.keySet()) {
+            for(AbstractAnimal abstractAnimal: arrayAnimals.get(key))
+                if (abstractAnimal.birthDate.getYear() % 400 == 0 ||
+                        abstractAnimal.birthDate.getYear() % 4 == 0 && abstractAnimal.birthDate.getYear() % 100 != 0) {
+                    arrayLeapYear.put(abstractAnimal.getClass().getSimpleName() + " "
+                            + abstractAnimal.name, abstractAnimal.birthDate);
+                }
         }
-        for (String result : arrayLeapYear)
-            System.out.println(result);
-
+        System.out.println(arrayLeapYear);
+        return arrayLeapYear;
     }
 
-    public void findOlderAnimal(int N) {
-        ArrayList<AbstractAnimal> arrayOldAnimals = new ArrayList<>();
-        for (AbstractAnimal arrayAnimal : arrayAnimals) {
-            if (arrayAnimal.birthDate.getYear() > N)
-                arrayOldAnimals.add(arrayAnimal);
+    public Map<AbstractAnimal, Integer> findOlderAnimal(int N) {
+        Map<AbstractAnimal, Integer> arrayOldAnimals = new HashMap<>();
+        for (String key: arrayAnimals.keySet()) {
+            for(AbstractAnimal abstractAnimal: arrayAnimals.get(key))
+                if (abstractAnimal.birthDate.getYear() > N)
+                    arrayOldAnimals.put(abstractAnimal, 2024 - abstractAnimal.birthDate.getYear());
         }
-        for (AbstractAnimal result : arrayOldAnimals)
-            System.out.println(result);
+        System.out.println(arrayOldAnimals);
+        return arrayOldAnimals;
     }
 
     @Scheduled(fixedDelay = 60000)
-    public boolean findDuplicateTrue() {
-        for (int i = 0; i < arrayAnimals.length; i++) {
-            for (int j = i + 1; j < arrayAnimals.length; j++) {
-                if (arrayAnimals[i].equals(arrayAnimals[j])) {
-                    return true;
+    public Map<String, Integer> findDuplicateTrue() {
+        Map<String, Integer> duplicate = new HashMap<>();
+        for (String key: arrayAnimals.keySet()) {
+            for (int i = 0; i < key.length(); i++) {
+                for (int j = i + 1; j < key.length(); j++) {
+                    if (arrayAnimals.get(key).get(i).equals(arrayAnimals.get(key).get(j))) {
+                        String str = String.valueOf(arrayAnimals.get(key).getClass());
+                        duplicate.put(str, duplicate.get(str) + 1);
+                    }
                 }
             }
         }
-        return false;
+        System.out.println(duplicate);
+        return duplicate;
     }
 
     @Scheduled(fixedDelay = 60000)
-    public boolean findDuplicateFalse() {
-        AbstractAnimal[] arrayAnimals2 = createAnimalService.createMasAnimal(10);
-        for (int i = 0; i < arrayAnimals2.length; i++) {
-            for (int j = i + 1; j < arrayAnimals2.length; j++) {
-                if (arrayAnimals2[i].equals(arrayAnimals2[j])) {
-                    return true;
+    public Map<String, Integer> findDuplicateFalse() {
+        Map<String, List<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(10);
+        Map<String, Integer> duplicate = new HashMap<>();
+        for (String key: arrayAnimals2.keySet()) {
+            for (int i = 0; i < key.length(); i++) {
+                for (int j = i + 1; j < key.length(); j++) {
+                    if (arrayAnimals2.get(key).get(i).equals(arrayAnimals2.get(key).get(j))) {
+                        String str = String.valueOf(arrayAnimals2.get(key).getClass());
+                        duplicate.put(str, duplicate.get(str) + 1);
+                    }
                 }
             }
         }
-        return false;
+        System.out.println(duplicate);
+        return duplicate;
     }
 }

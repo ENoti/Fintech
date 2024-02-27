@@ -3,6 +3,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
 @Scope("prototype")
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -16,11 +19,11 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     @Autowired
     CreateConfiguration createConfiguration;
 
-    public AbstractAnimal[] createMasAnimal(int N) {
+    public Map<String, List<AbstractAnimal>> createMasAnimal(int N) {
         return createConfiguration.createMasAnimal(N);
     }
 
-    public AbstractAnimal[] createMasAnimal() {
+    public Map<String, List<AbstractAnimal>> createMasAnimal() {
         int N = 10;
         return createConfiguration.createMasAnimal();
     }
