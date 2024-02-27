@@ -1,5 +1,8 @@
 package ru.mts;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CreateAnimalService {
 
     default AbstractAnimal choiceAnimal(int type){
@@ -8,7 +11,7 @@ public interface CreateAnimalService {
 
     default AbstractAnimal createAnimal(){ return null;}
 
-    default AbstractAnimal[] createMasAnimal(){
+    default Map<String, List<AbstractAnimal>> createMasAnimal(){
         return null;
     }
 }

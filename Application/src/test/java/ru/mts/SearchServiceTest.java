@@ -107,7 +107,7 @@ class SearchServiceTest {
         }
         @DisplayName("findOlderAnimal Test")
         @ParameterizedTest
-        @ValueSource(ints = {2016,2017,2018,2019,2015,2010})
+        @ValueSource(ints = {2016,2017,2021,2019,2015,2020})
         void findOlderAnimalTest(int number){
             System.out.println("========TEST TWO EXECUTED=======");
             System.out.println("\nЖивотные, дата рождения которых больше " + number + ":");
@@ -119,7 +119,7 @@ class SearchServiceTest {
             System.out.println("========TEST THREE.ONE EXECUTED=======");
             System.out.println("\nДубликаты:");
             //Создаются два одинаковых объекта в начале списка животных
-            Assertions.assertTrue(animalsRepository.findDuplicateTrue());
+            Assertions.assertTrue(animalsRepository.findDuplicateTrue().isEmpty());
         }
         @DisplayName("findDuplicate Test")
         @Test
@@ -127,7 +127,7 @@ class SearchServiceTest {
             System.out.println("========TEST THREE.TWO EXECUTED=======");
             System.out.println("\nДубликаты:");
             //Не создаются два одинаковых объекта в начале списка животных
-            Assertions.assertFalse(animalsRepository.findDuplicateFalse());
+            Assertions.assertFalse(animalsRepository.findDuplicateFalse().isEmpty());
         }
     }
 
