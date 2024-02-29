@@ -1,6 +1,5 @@
-package ru.mts;
+package ru.mts.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "application")
 public class AnimalProperties {

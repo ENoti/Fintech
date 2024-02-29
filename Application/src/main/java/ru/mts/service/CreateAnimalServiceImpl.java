@@ -1,18 +1,27 @@
-package ru.mts;
+package ru.mts.service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import ru.mts.config.AppConfiguration;
+import ru.mts.entity.*;
+import ru.mts.config.AnimalProperties;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@EnableConfigurationProperties(AnimalProperties.class)
-public class CreateConfiguration {
+@Service
+public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     @Autowired
     AnimalProperties animalProperties;
+
+    @Autowired
+    AppConfiguration appConfiguration;
 
     public AbstractAnimal choiceAnimal(int type) {
         AbstractAnimal abstractAnimal = null;
@@ -35,13 +44,6 @@ public class CreateConfiguration {
             }
         }
         return abstractAnimal;
-    }
-
-    @Bean
-    @Scope("prototype")
-    public AbstractAnimal createAnimal(){
-        int rand = (int) (Math.random() * 4);
-        return choiceAnimal(rand);
     }
 
     public List<AbstractAnimal> testSearch(List<AbstractAnimal> abstractAnimals){
@@ -70,7 +72,7 @@ public class CreateConfiguration {
         arrayAnimal.put((choiceAnimal(0).getClass().getSimpleName()), AbstractAnimal.getAnimal(dogs));
         N -= 2;
         while (N != 0) {
-            AbstractAnimal abstractAnimal = createAnimal();
+            AbstractAnimal abstractAnimal = appConfiguration.createAnimal();
             if(abstractAnimal instanceof Cat) {
                 cats.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(cats));
@@ -107,7 +109,7 @@ public class CreateConfiguration {
         List<AbstractAnimal> sharks = new ArrayList<>();
         List<AbstractAnimal> wolves = new ArrayList<>();
         do{
-            AbstractAnimal abstractAnimal = createAnimal();
+            AbstractAnimal abstractAnimal = appConfiguration.createAnimal();
             if(abstractAnimal instanceof Cat) {
                 cats.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(cats));
@@ -117,18 +119,18 @@ public class CreateConfiguration {
             else if (abstractAnimal instanceof Dog) {
                 dogs.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(dogs));
-                arrayAnimal.get((dogs.get(dogs.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((dogs.get(dogs.size()-1).getClass().getSimpleName())).get(dogs.size()-1).name
                         = animalProperties.getNameAnimal();
             } else if (abstractAnimal instanceof Wolf) {
                 wolves.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(wolves));
-                arrayAnimal.get((wolves.get(wolves.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((wolves.get(wolves.size()-1).getClass().getSimpleName())).get(wolves.size()-1).name
                         = animalProperties.getNameAnimal();
             }
             else if (abstractAnimal instanceof Shark) {
                 sharks.add(AbstractAnimal.getAnimal(abstractAnimal));
                 arrayAnimal.put((abstractAnimal.getClass().getSimpleName()), AbstractAnimal.getAnimal(sharks));
-                arrayAnimal.get((sharks.get(sharks.size()-1).getClass().getSimpleName())).get(cats.size()-1).name
+                arrayAnimal.get((sharks.get(sharks.size()-1).getClass().getSimpleName())).get(sharks.size()-1).name
                         = animalProperties.getNameAnimal();
             }
             N++;

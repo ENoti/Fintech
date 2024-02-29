@@ -1,10 +1,12 @@
-package ru.mts;
+package ru.mts.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import ru.mts.entity.AbstractAnimal;
+import ru.mts.service.CreateAnimalServiceImpl;
+
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

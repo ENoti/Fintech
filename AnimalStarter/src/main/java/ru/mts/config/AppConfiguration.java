@@ -1,10 +1,11 @@
-package ru.mts;
+package ru.mts.config;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import ru.mts.config.AnimalProperties;
 import ru.mts.entity.*;
-
 @TestConfiguration
 public class AppConfiguration {
 

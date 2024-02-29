@@ -1,4 +1,6 @@
-package ru.mts;
+package ru.mts.repository;
+
+import ru.mts.entity.AbstractAnimal;
 
 import java.time.LocalDate;
 import java.util.HashMap;

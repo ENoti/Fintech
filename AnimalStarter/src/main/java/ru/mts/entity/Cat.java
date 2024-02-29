@@ -1,7 +1,5 @@
-package ru.mts;
+package ru.mts.entity;
 
-import ru.mts.AbstractAnimal;
-import ru.mts.Pet;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;

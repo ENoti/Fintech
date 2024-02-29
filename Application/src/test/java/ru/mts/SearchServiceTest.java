@@ -5,7 +5,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import ru.mts.config.AppConfiguration;
+import ru.mts.entity.Cat;
+import ru.mts.entity.Dog;
+import ru.mts.entity.Shark;
+import ru.mts.entity.Wolf;
+import ru.mts.repository.AnimalsRepositoryImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

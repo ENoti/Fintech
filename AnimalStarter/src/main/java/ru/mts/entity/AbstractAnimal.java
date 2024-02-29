@@ -1,4 +1,4 @@
-package ru.mts;
+package ru.mts.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,11 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractAnimal implements Animal {
 
-    protected String breed; //порода
-    protected String name; //имя
-    protected BigDecimal cost; //цена в магазине, до двух знаков после запятой
-    protected String character; //характер
-    protected LocalDate birthDate; //день рождения животного в формате dd-MM-yyyy
+    public String breed; //порода
+    public String name; //имя
+    public BigDecimal cost; //цена в магазине, до двух знаков после запятой
+    public String character; //характер
+    public LocalDate birthDate; //день рождения животного в формате dd-MM-yyyy
 
     public LocalDate getBirthDateGen() {
         long minDay = LocalDate.of(1970, 1, 1).toEpochDay();

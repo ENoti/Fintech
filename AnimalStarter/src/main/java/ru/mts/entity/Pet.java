@@ -1,4 +1,4 @@
-package ru.mts;
+package ru.mts.entity;
 
 import java.util.LinkedList;
 

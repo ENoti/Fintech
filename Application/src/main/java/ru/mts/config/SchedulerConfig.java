@@ -1,4 +1,4 @@
-package ru.mts;
+package ru.mts.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
