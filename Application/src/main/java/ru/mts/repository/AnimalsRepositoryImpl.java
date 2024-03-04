@@ -7,9 +7,9 @@ import ru.mts.service.CreateAnimalServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -27,73 +27,100 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @Scheduled(fixedDelay = 60000)
     public Map<String, LocalDate> findLeapYearNames() {
-        Map<String, LocalDate> arrayLeapYear = new HashMap<>();
-        for (String key: arrayAnimals.keySet()) {
-            for (AbstractAnimal abstractAnimal : arrayAnimals.get(key)) {
-                if (abstractAnimal.birthDate.getYear() % 400 == 0 || abstractAnimal.birthDate.getYear() % 4 == 0 &&
-                        abstractAnimal.birthDate.getYear() % 100 != 0) {
-                    arrayLeapYear.put(abstractAnimal.getClass().getSimpleName() + " "
-                            + abstractAnimal.name, abstractAnimal.birthDate);
-                }
-            }
-        }
-        System.out.println(arrayLeapYear);
-        return arrayLeapYear;
+        Map<String, LocalDate> map = arrayAnimals.entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream())
+                .filter(abstractAnimal -> abstractAnimal.birthDate.getYear() % 400==0 ||
+                        abstractAnimal.birthDate.getYear() % 4 == 0 && abstractAnimal.birthDate.getYear() % 100 != 0)
+                .collect(Collectors.toMap(abstractAnimal -> abstractAnimal.getClass().getSimpleName() + " " +
+                        abstractAnimal.name, abstractAnimal -> abstractAnimal.birthDate));
+        System.out.println(map);
+        return map;
     }
 
     public Map<AbstractAnimal, Integer> findOlderAnimal(int N) {
-        int maxOld = 5000;
-        AbstractAnimal abstractAnimalOld = null;
-        Map<AbstractAnimal, Integer> arrayOldAnimals = new HashMap<>();
-        for (String key: arrayAnimals.keySet()) {
-            for(AbstractAnimal abstractAnimal: arrayAnimals.get(key)) {
-                if (abstractAnimal.birthDate.getYear() > N) {
-                    arrayOldAnimals.put(abstractAnimal, 2024 - abstractAnimal.birthDate.getYear());
-                } else if (maxOld > 0) {
-                    System.out.println(Integer.parseInt(String.valueOf(abstractAnimal.birthDate.getYear())));
-                    maxOld = abstractAnimal.birthDate.getYear();
-                    abstractAnimalOld = abstractAnimal;
-                }
-            }
+        var ref = new Object() {
+            int maxOld = 5000;
+            AbstractAnimal abstractAnimalOld = null;
+        };
+        Map<AbstractAnimal, Integer> map = arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .filter(abstractAnimal -> abstractAnimal.birthDate.getYear() > N)
+                .collect(Collectors.toMap(Function.identity(), abstractAnimal -> 2024 - abstractAnimal.birthDate.getYear(),
+                        (oldAnimal, newAnimal) -> oldAnimal, HashMap::new))
+                .entrySet().stream()
+                .peek(entry -> { int year = entry.getKey().birthDate.getYear();
+                    if (ref.maxOld > 0 && year < ref.maxOld) {
+                        ref.maxOld = year;
+                        ref.abstractAnimalOld = entry.getKey();
+                    }
+                })
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if(map.isEmpty()) {
+            map.put((AbstractAnimal) map, 2024 - ref.maxOld);
+            return map;
         }
-        if(arrayOldAnimals.isEmpty()) {
-            arrayOldAnimals.put(abstractAnimalOld, 2024 - maxOld);
-            return arrayOldAnimals;
-        }
-        System.out.println(arrayOldAnimals);
-        return arrayOldAnimals;
+        return map;
     }
 
     @Scheduled(fixedDelay = 60000)
     public Map<String, Integer> findDuplicateTrue() {
-        Map<String, Integer> duplicate = new HashMap<>();
-        for (String key: arrayAnimals.keySet()) {
-            for (int i = 0; i < arrayAnimals.get(key).size(); i++) {
-                for (int j = i + 1; j < arrayAnimals.get(key).size(); j++) {
-                    if (arrayAnimals.get(key).get(i).equals(arrayAnimals.get(key).get(j))) {
-                        duplicate.put(key, duplicate.getOrDefault(key, 0) + 1);
-                    }
-                }
-            }
-        }
-        System.out.println(duplicate);
-        return duplicate;
+        Map<String, Integer> map = arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .collect(Collectors.toMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
+                        getClass().getSimpleName(), entry -> entry.getValue().intValue()));
+        System.out.println(map);
+        return map;
     }
 
     @Scheduled(fixedDelay = 60000)
     public Map<String, Integer> findDuplicateFalse() {
         Map<String, List<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(10);
-        Map<String, Integer> duplicate = new HashMap<>();
-        for (String key: arrayAnimals2.keySet()) {
-            for (int i = 0; i < arrayAnimals2.get(key).size(); i++) {
-                for (int j = i + 1; j < arrayAnimals2.get(key).size(); j++) {
-                    if (arrayAnimals2.get(key).get(i).equals(arrayAnimals2.get(key).get(j))) {
-                        duplicate.put(key, duplicate.getOrDefault(key, 0) + 1);
-                    }
-                }
-            }
+        Map<String, Integer> map = arrayAnimals2.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .collect(Collectors.toMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
+                        getClass().getSimpleName(), entry -> entry.getValue().intValue()));
+        System.out.println(map);
+        return map;
+    }
+
+    public double findAverageAge(){
+        return arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .mapToDouble(abstractAnimal -> abstractAnimal.birthDate.getYear())
+                .average()
+                .orElse(0.0);
+    }
+    public List<AbstractAnimal> findOldAndExpensive(){
+        double middleCost = arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .mapToDouble(abstractAnimal -> abstractAnimal.cost.intValue())
+                .average()
+                .orElse(0.0);
+        return arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .filter(abstractAnimal -> (2024 - abstractAnimal.birthDate.getYear() > 5)
+                        && (abstractAnimal.cost.doubleValue() > middleCost))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> findMinConstAnimals(){
+        return arrayAnimals.values().stream()
+                .flatMap(List::stream)
+                .sorted(new AnimalComparator())
+                .limit(3)
+                .map(AbstractAnimal::getName)
+                .collect(Collectors.toList());
+    }
+
+    static class AnimalComparator implements Comparator<AbstractAnimal>{
+        public int compare(AbstractAnimal a, AbstractAnimal b){
+            return a.cost.compareTo(b.cost);
         }
-        System.out.println(duplicate);
-        return duplicate;
     }
 }

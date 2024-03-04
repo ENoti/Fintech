@@ -134,6 +134,24 @@ class SearchServiceTest {
             //Не создаются два одинаковых объекта в начале списка животных
             Assertions.assertFalse(animalsRepository.findDuplicateFalse().isEmpty());
         }
+
+        @DisplayName("findMinConstAnimals Test")
+        @Test
+        void findMinConstAnimalsTest(){
+            System.out.println(animalsRepository.findMinConstAnimals());
+        }
+
+        @DisplayName("findAverageAge Test")
+        @Test
+        void findAverageAgeTest(){
+            System.out.println(animalsRepository.findAverageAge());
+        }
+
+        @DisplayName("findOldAndExpensive Test")
+        @Test
+        void findOldAndExpensiveTest(){
+            System.out.println(animalsRepository.findOldAndExpensive());
+        }
     }
 
 }
