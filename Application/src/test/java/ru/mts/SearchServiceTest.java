@@ -6,14 +6,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.mts.config.AppConfiguration;
-import ru.mts.entity.Cat;
-import ru.mts.entity.Dog;
-import ru.mts.entity.Shark;
-import ru.mts.entity.Wolf;
+import ru.mts.entity.*;
 import ru.mts.repository.AnimalsRepositoryImpl;
+import ru.mts.service.CreateAnimalServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(classes = AppConfiguration.class)
 class SearchServiceTest {
@@ -116,8 +116,9 @@ class SearchServiceTest {
         void findOlderAnimalTest(int number){
             System.out.println("========TEST TWO EXECUTED=======");
             System.out.println("\nЖивотные, дата рождения которых больше " + number + ":");
-            animalsRepository.findOlderAnimal(number);
+            System.out.println(animalsRepository.findOlderAnimal(number));
         }
+
         @DisplayName("findDuplicate Test")
         @Test
         void findDuplicateTestTrue(){
@@ -153,5 +154,28 @@ class SearchServiceTest {
             System.out.println(animalsRepository.findOldAndExpensive());
         }
     }
+    @Nested
+    class ExceptTest{
+        @Autowired
+        AnimalsRepositoryImpl animalsRepository;
 
+        @Autowired
+        CreateAnimalServiceImpl createAnimalService;
+
+        @DisplayName("findOlderAnimal Test with Exceptions")
+        @ParameterizedTest
+        @ValueSource(ints = {0,2021,2019,1995,2025})
+        void findOlderAnimalTestExcept(int number){
+            System.out.println("========TEST EXCEPT=======");
+            System.out.println("\nЖивотные, дата рождения которых больше " + number + ":");
+            System.out.println(animalsRepository.findOlderAnimal(number));
+        }
+
+        @DisplayName("findMinConstAnimals Test with Exception")
+        @Test
+        void findMinConstAnimalsTestExcept(){
+            Map<String, List<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(2);
+            System.out.println(animalsRepository.findMinConstAnimals(arrayAnimals2));
+        }
+    }
 }

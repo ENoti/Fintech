@@ -23,11 +23,13 @@ public interface AnimalsRepository {
         return new HashMap<>();
     }
 
-    default double findAverageAge(Map<String, List<AbstractAnimal>> abstractAnimals){ return 0; }
-    default List<AbstractAnimal> findOldAndExpensive(Map<String, List<AbstractAnimal>> abstractAnimals){
+    default double findAverageAge(){ return 0; }
+    default List<AbstractAnimal> findOldAndExpensive(){
         return new ArrayList<>();
     }
-
+    default List<String> findMinConstAnimals(){
+        return new ArrayList<>();
+    }
     default List<String> findMinConstAnimals(Map<String, List<AbstractAnimal>> abstractAnimals){
         return new ArrayList<>();
     }
