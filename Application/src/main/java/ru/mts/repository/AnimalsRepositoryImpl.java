@@ -3,6 +3,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.mts.entity.AbstractAnimal;
+import ru.mts.exception.NotEnoughSizeException;
+import ru.mts.exception.UnrealArgumentException;
 import ru.mts.service.CreateAnimalServiceImpl;
 
 import javax.annotation.PostConstruct;
@@ -43,14 +45,15 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return map;
     }
 
-    public Map<AbstractAnimal, Integer> findOlderAnimal(int N) {
-        if (N <= 0) {
-            throw new IllegalArgumentException("Invalid argument: N cannot be less than 0");
-        } else if ( N > Year.now().getValue()){
-            throw new IllegalArgumentException("Invalid argument: N cannot be less than " +  Year.now().getValue());
-        }
+    public Map<AbstractAnimal, Integer> findOlderAnimal(int N){
+
         Map<AbstractAnimal, Integer> map = null;
         try {
+            if (N <= 0) {
+                throw new UnrealArgumentException("Invalid argument: N cannot be less than 0");
+            } else if ( N > Year.now().getValue()){
+                throw new UnrealArgumentException("Invalid argument: N cannot be less than " +  Year.now().getValue());
+            }
             var ref = new Object() {
                 int maxOld = Year.now().getValue();
                 AbstractAnimal abstractAnimalOld = null;
@@ -73,7 +76,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 map.put(ref.abstractAnimalOld, 2024 - ref.maxOld);
                 return map;
             }
-        } catch (IllegalArgumentException e){
+        } catch (UnrealArgumentException e){
             System.out.println(e.getMessage());
         }
         return map;
@@ -140,7 +143,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     public List<String> findMinConstAnimals(){
         List<String> arrayAnimalsLocal = new ArrayList<>();
         if (arrayAnimals.size() < 3) {
-            throw new IllegalArgumentException("There must be at least 3 animals");
+            throw new NotEnoughSizeException("There must be at least 3 animals");
         }
         try {
             arrayAnimalsLocal.addAll(arrayAnimals.values().stream()
