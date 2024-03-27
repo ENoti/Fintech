@@ -1,6 +1,8 @@
 package ru.mts.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.mts.entity.AbstractAnimal;
@@ -32,10 +34,10 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
 
     @PostConstruct
     public void postConstruct(){
-        arrayAnimals = createAnimalService.createMasAnimal();
+        arrayAnimals = createAnimalService.createMasAnimal(100);
     }
 
-    @Scheduled(fixedDelay = 60000)
+
     public ConcurrentMap<String, LocalDate> findLeapYearNames() {
         ConcurrentMap<String, LocalDate> map = null;
         try {
@@ -89,7 +91,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return map;
     }
 
-    @Scheduled(fixedDelay = 60000)
+
     public ConcurrentMap<String, Integer> findDuplicateTrue() {
         ConcurrentMap<String, Integer> map = null;
         try {
@@ -100,14 +102,14 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                     .filter(entry -> entry.getValue() > 1)
                     .collect(Collectors.toConcurrentMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
                             getClass().getSimpleName(), entry -> entry.getValue().intValue()));
-            System.out.println(map);
+            //System.out.println(map);
         } catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
         return map;
     }
 
-    @Scheduled(fixedDelay = 60000)
+
     public ConcurrentMap<String, Integer> findDuplicateFalse() {
         ConcurrentMap<String, Integer> map = null;
         try{
