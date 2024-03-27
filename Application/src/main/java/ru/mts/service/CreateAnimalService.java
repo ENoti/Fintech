@@ -2,8 +2,8 @@ package ru.mts.service;
 
 import ru.mts.entity.AbstractAnimal;
 
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface CreateAnimalService {
 
@@ -11,7 +11,7 @@ public interface CreateAnimalService {
         return null;
     }
 
-    default Map<String, List<AbstractAnimal>> createMasAnimal(){
+    default ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> createMasAnimal(){
         return null;
     }
 }

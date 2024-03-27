@@ -1,7 +1,5 @@
 package ru.mts.service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import ru.mts.config.AppConfiguration;
 import ru.mts.entity.*;
@@ -10,9 +8,10 @@ import ru.mts.config.AnimalProperties;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -46,7 +45,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return abstractAnimal;
     }
 
-    public List<AbstractAnimal> testSearch(List<AbstractAnimal> abstractAnimals){
+    public CopyOnWriteArrayList<AbstractAnimal> testSearch(CopyOnWriteArrayList<AbstractAnimal> abstractAnimals){
         abstractAnimals.add(choiceAnimal(0));
         abstractAnimals.get(0).name = "TestName";
         abstractAnimals.get(0).cost = BigDecimal.valueOf(0);
@@ -62,12 +61,12 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return abstractAnimals;
     }
 
-    public Map<String, List<AbstractAnimal>> createMasAnimal(int N) {
-        Map<String, List<AbstractAnimal>> arrayAnimal = new HashMap<>();
-        List<AbstractAnimal> cats = new ArrayList<>();
-        List<AbstractAnimal> dogs = new ArrayList<>();
-        List<AbstractAnimal> sharks = new ArrayList<>();
-        List<AbstractAnimal> wolves = new ArrayList<>();
+    public ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> createMasAnimal(int N) {
+        ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimal = new ConcurrentHashMap<>();
+        CopyOnWriteArrayList<AbstractAnimal> cats = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> dogs = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> sharks = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> wolves = new CopyOnWriteArrayList<>();
         dogs = testSearch(dogs);
         arrayAnimal.put((choiceAnimal(0).getClass().getSimpleName()), AbstractAnimal.getAnimal(dogs));
         N -= 2;
@@ -101,13 +100,13 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return arrayAnimal;
     }
 
-    public Map<String, List<AbstractAnimal>> createMasAnimal() {
+    public ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> createMasAnimal() {
         int N = 0;
-        Map<String, List<AbstractAnimal>> arrayAnimal = new HashMap<>();
-        List<AbstractAnimal> cats = new ArrayList<>();
-        List<AbstractAnimal> dogs = new ArrayList<>();
-        List<AbstractAnimal> sharks = new ArrayList<>();
-        List<AbstractAnimal> wolves = new ArrayList<>();
+        ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimal = new ConcurrentHashMap<>();
+        CopyOnWriteArrayList<AbstractAnimal> cats = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> dogs = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> sharks = new CopyOnWriteArrayList<>();
+        CopyOnWriteArrayList<AbstractAnimal> wolves = new CopyOnWriteArrayList<>();
         do{
             AbstractAnimal abstractAnimal = appConfiguration.createAnimal();
             if(abstractAnimal instanceof Cat) {

@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 import ru.mts.config.AppConfiguration;
 import ru.mts.entity.*;
 import ru.mts.repository.AnimalsRepositoryImpl;
@@ -12,8 +13,13 @@ import ru.mts.service.CreateAnimalServiceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @SpringBootTest(classes = AppConfiguration.class)
 class SearchServiceTest {
@@ -174,8 +180,23 @@ class SearchServiceTest {
         @DisplayName("findMinConstAnimals Test with Exception")
         @Test
         void findMinConstAnimalsTestExcept(){
-            Map<String, List<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(2);
+            ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(2);
             System.out.println(animalsRepository.findMinConstAnimals(arrayAnimals2));
+        }
+
+        @DisplayName("Test thread-safe")
+        @Test
+        void threadSafeTest(){
+            ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals = new ConcurrentHashMap<>();
+            arrayAnimals.put("Test1", new CopyOnWriteArrayList<>());
+            arrayAnimals.put("Test2", new CopyOnWriteArrayList<>());
+            System.out.println(arrayAnimals);
+            ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals2 = new ConcurrentHashMap<>();
+            arrayAnimals.put("Test1", new CopyOnWriteArrayList<>());
+            arrayAnimals.put("Test2", new CopyOnWriteArrayList<>());
+            System.out.println(arrayAnimals2);
+            Assertions.assertEquals(arrayAnimals,arrayAnimals2);
+
         }
     }
 }

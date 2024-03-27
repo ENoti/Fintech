@@ -1,4 +1,5 @@
 package ru.mts.repository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,13 @@ import ru.mts.service.CreateAnimalServiceImpl;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,7 +28,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     @Autowired
     CreateAnimalServiceImpl createAnimalService;
 
-    Map<String, List<AbstractAnimal>> arrayAnimals;
+    ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals;
 
     @PostConstruct
     public void postConstruct(){
@@ -29,14 +36,14 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Scheduled(fixedDelay = 60000)
-    public Map<String, LocalDate> findLeapYearNames() {
-        Map<String, LocalDate> map = null;
+    public ConcurrentMap<String, LocalDate> findLeapYearNames() {
+        ConcurrentMap<String, LocalDate> map = null;
         try {
             map = arrayAnimals.entrySet().stream()
                     .flatMap(entry -> entry.getValue().stream())
                     .filter(abstractAnimal -> abstractAnimal.birthDate.getYear() % 400==0 ||
                             abstractAnimal.birthDate.getYear() % 4 == 0 && abstractAnimal.birthDate.getYear() % 100 != 0)
-                    .collect(Collectors.toMap(abstractAnimal -> abstractAnimal.getClass().getSimpleName() + " " +
+                    .collect(Collectors.toConcurrentMap(abstractAnimal -> abstractAnimal.getClass().getSimpleName() + " " +
                             abstractAnimal.name, abstractAnimal -> abstractAnimal.birthDate));
             System.out.println(map);
         } catch (IllegalArgumentException e){
@@ -45,9 +52,9 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return map;
     }
 
-    public Map<AbstractAnimal, Integer> findOlderAnimal(int N){
+    public ConcurrentMap<AbstractAnimal, Integer> findOlderAnimal(int N){
 
-        Map<AbstractAnimal, Integer> map = null;
+        ConcurrentMap<AbstractAnimal, Integer> map = null;
         try {
             if (N <= 0) {
                 throw new UnrealArgumentException("Invalid argument: N cannot be less than 0");
@@ -71,7 +78,7 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                             ref.abstractAnimalOld = entry.getKey();
                         }
                     })
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                    .collect(Collectors.toConcurrentMap(ConcurrentMap.Entry::getKey, ConcurrentMap.Entry::getValue));
             if(map.isEmpty()) {
                 map.put(ref.abstractAnimalOld, 2024 - ref.maxOld);
                 return map;
@@ -83,15 +90,15 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Scheduled(fixedDelay = 60000)
-    public Map<String, Integer> findDuplicateTrue() {
-        Map<String, Integer> map = null;
+    public ConcurrentMap<String, Integer> findDuplicateTrue() {
+        ConcurrentMap<String, Integer> map = null;
         try {
             map = arrayAnimals.values().stream()
                     .flatMap(List::stream)
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                     .entrySet().stream()
                     .filter(entry -> entry.getValue() > 1)
-                    .collect(Collectors.toMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
+                    .collect(Collectors.toConcurrentMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
                             getClass().getSimpleName(), entry -> entry.getValue().intValue()));
             System.out.println(map);
         } catch (IllegalArgumentException e){
@@ -101,16 +108,16 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
     }
 
     @Scheduled(fixedDelay = 60000)
-    public Map<String, Integer> findDuplicateFalse() {
-        Map<String, Integer> map = null;
+    public ConcurrentMap<String, Integer> findDuplicateFalse() {
+        ConcurrentMap<String, Integer> map = null;
         try{
-            Map<String, List<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(10);
+            ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals2 = createAnimalService.createMasAnimal(10);
             map = arrayAnimals2.values().stream()
                     .flatMap(List::stream)
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                     .entrySet().stream()
                     .filter(entry -> entry.getValue() > 1)
-                    .collect(Collectors.toMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
+                    .collect(Collectors.toConcurrentMap(abstractAnimalLongEntry -> abstractAnimalLongEntry.getKey().
                             getClass().getSimpleName(), entry -> entry.getValue().intValue()));
             System.out.println(map);
         } catch (IllegalArgumentException e){
@@ -127,21 +134,21 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
                 .average()
                 .orElse(0.0);
     }
-    public List<AbstractAnimal> findOldAndExpensive(){
+    public CopyOnWriteArrayList<AbstractAnimal> findOldAndExpensive(){
         double middleCost = arrayAnimals.values().stream()
-                .flatMap(List::stream)
+                .flatMap(CopyOnWriteArrayList::stream)
                 .mapToDouble(abstractAnimal -> abstractAnimal.cost.intValue())
                 .average()
                 .orElse(0.0);
-        return arrayAnimals.values().stream()
-                .flatMap(List::stream)
+        return (CopyOnWriteArrayList<AbstractAnimal>) arrayAnimals.values().stream()
+                .flatMap(CopyOnWriteArrayList::stream)
                 .filter(abstractAnimal -> (2024 - abstractAnimal.birthDate.getYear() > 5)
                         && (abstractAnimal.cost.doubleValue() > middleCost))
                 .collect(Collectors.toList());
     }
 
-    public List<String> findMinConstAnimals(){
-        List<String> arrayAnimalsLocal = new ArrayList<>();
+    public CopyOnWriteArrayList<String> findMinConstAnimals(){
+        CopyOnWriteArrayList<String> arrayAnimalsLocal = new CopyOnWriteArrayList<>();
         if (arrayAnimals.size() < 3) {
             throw new NotEnoughSizeException("There must be at least 3 animals");
         }
@@ -158,8 +165,8 @@ public class AnimalsRepositoryImpl implements AnimalsRepository {
         return arrayAnimalsLocal;
     }
 
-    public List<String> findMinConstAnimals(Map<String, List<AbstractAnimal>> arrayAnimals){
-        List<String> arrayAnimalsLocal = new ArrayList<>();
+    public CopyOnWriteArrayList<String> findMinConstAnimals(ConcurrentMap<String, CopyOnWriteArrayList<AbstractAnimal>> arrayAnimals){
+        CopyOnWriteArrayList<String> arrayAnimalsLocal = new CopyOnWriteArrayList<>();
         if (arrayAnimals.values().stream().mapToLong(List::size).sum() < 3) {
             throw new IllegalArgumentException("There must be at least 3 animals");
         }
